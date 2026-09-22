@@ -1,30 +1,73 @@
-# 🎮 FastAPI Videojoc Marketplace
+# FastAPI — mercat de videojocs
 
-## Descripció 📋
-Aquesta és una **API RESTful desenvolupada amb FastAPI** per gestionar un mercat digital de videojocs.  
-Els usuaris poden:
-- Comprar videojocs.
-- Consultar informació sobre elements en venda.
-- Afegir etiquetes als videojocs amb un màxim de 5 etiquetes per usuari i videojoc.
+API REST i client web per a un mercat digital de videojocs. L'usuari consulta el catàleg, compra, opina, etiqueta (com a màxim 5 etiquetes per usuari i videojoc) i gestiona la subscripció.
 
-## 📦 Estructura Principal
-- **Models:** ElementVenda, Videojoc, DLC, Venda, Usuari, Etiqueta, EtiquetaCom.
-- **Funcionalitats:** CRUD d’elements, vendes, etiquetes i gestió d’usuaris.
+## Què hi ha
 
----
+El backend és **FastAPI** amb SQLAlchemy. El frontend és una app **Create React App** a `frontend/` (login, registre, biblioteca, etiquetes, opinions, perfil i administració d'usuaris).
 
-## 🚀 Instal·lació
+### Models
 
-### Requisits previs
-- Python 3.9+
+`ElementVenda`, `Videojoc`, `DLC`, `Venda`, `Usuari`, `Etiqueta`, `EtiquetaCom`, `Opinio`, `Subscripcio`, `Acces`.
+
+### Rutes
+
+Sota `backend/app/router/`:
+
+- `videojoc`, `dlc`, `elementvenda`
+- `venda`, `usuari`, `acces`
+- `etiqueta`, `opinio`, `subscripcio`
+
+L'entrada de l'API és `backend/app/main.py`. La URL de la base es llegeix a `backend/app/config.py` / `backend/app/database.py`.
+
+## Requisits
+
+- Python 3.9 o superior
 - PostgreSQL
-- FastAPI
-- SQLAlchemy
-- Uvicorn
+- Node.js per al frontend
 
-### Clonació del projecte
+## Backend
+
+Des de l'arrel del repositori:
+
 ```bash
-git clone https://github.com/el_teu_usuari/fastapi-videojoc-marketplace.git
 pip install -r requirements.txt
-DATABASE_URL = "postgresql://usuari:contrasenya@localhost:5432/nom_base_de_dades"
-uvicorn app.main:app --reload
+```
+
+Configura la connexió a PostgreSQL a `backend/app/database.py` (usuari, contrasenya, host i nom de la base). Després:
+
+```bash
+uvicorn backend.app.main:app --reload
+```
+
+La documentació interactiva queda a `http://127.0.0.1:8000/docs`.
+
+## Frontend
+
+```bash
+cd frontend
+npm install
+npm start
+```
+
+El client ha d'apuntar a la URL on escolta Uvicorn. Aquesta adreça està al codi del frontend (per exemple a `src/appInstance.jsx`).
+
+## Estructura
+
+```
+backend/app/
+├── main.py
+├── config.py
+├── database.py
+├── models/
+├── schemas/
+├── crud/
+└── router/
+frontend/src/
+├── Login.js
+├── Register.js
+├── Catalog.js
+├── Componentes/
+└── rutas/          # biblioteca, etiquetes, opinions, perfil, usuaris
+requirements.txt
+```
